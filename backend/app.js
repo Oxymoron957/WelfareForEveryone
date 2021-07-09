@@ -4,7 +4,7 @@
 /*eslint-env node*/
 
 const express = require('express');
-const db = require(`./util/db`); // import db pool
+//const db = require(`./util/db`); // import db pool
 const http = require('http');
 const bodyParser= require('body-parser');
 const app = express();
@@ -22,6 +22,12 @@ app.use((req, res, next) => {
 
 const server = http.createServer(app).listen(app.get('port'),function(){
     console.log("익스프레스로 웹 서버를 실행함 : "+ app.get('port')); 
+
+    // db test code 
+    // db.execute(`SELECT * FROM welfare_detail`)
+    // .then((result)=>{
+    //     console.log(result);
+    // })
  });
 
 
