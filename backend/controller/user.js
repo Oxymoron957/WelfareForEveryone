@@ -1,42 +1,39 @@
 const express = require('express');
-const userDB = require(`../model/user`);
-const user_controller = express.Router();
+const user_method = require('../model/user');
+const User_Router = express.Router();
 
 
-user_controller.post('/userLogin', (req, res, next) => {
-    userDB.login(req.body.id, req.body.pw)
+User_Router.post('/userLogin', (req, res, next) => {
+    user_method.login(req.body.id, req.body.pw)
     .then((user)=>{
-
         if (user[0].length == 0){
-            res.setHeader('Content-Type', 'text/html');
-            res.write("Denied");
-            res.end();
+            const approve ={'result':'Failed'};
+            res.send(approve);
         }
         else{
-            res.setHeader('Content-Type', 'text/html');
-            res.write("Login");
-            res.end();
+            const approve ={'result':'Successful'};
+            res.send(approve);
         }
     })
 });
 
-user_controller.post('/userLogout', (req, res, next) => {
-    var approve ={'approve_id':'NO','approve_pw':'NO'};
+User_Router.post('/userLogout', (req, res, next) => {
+    const approve ={'result':'Successful'};
     res.send(approve);
-    // res.setHeader('Content-Type', 'text/html');
-    // res.write("Logout");
-    // res.end();
 });
   
-user_controller.post('/userRegister', (req, res, next) => {
-
-
-
-    // console.log(req.body.pw);
-    // res.setHeader('Content-Type', 'text/html');
-    // res.write("TEST");
-    // res.end();
+User_Router.post('/userRegister', (req, res, next) => {
+    user_method.register(req.body.id, req.body.pw, req.body.gender, req.body.age, req.body.adress, req.body.life_cycle, req.body.family, req.body.income_quintile, req.body.disabled, req.body.veteran)
+    .then((result)=>{
+        console.log(result);
+        const approve ={'result':'Successful'};
+        res.send(approve);
+    });
 });
 
+module.exports = User_Router;
 
-  module.exports = user_controller;
+
+// res.setHeader('Content-Type', 'text/html');
+// res.write("Logout");
+// res.end();
